@@ -17,6 +17,10 @@ namespace Bright.ScreenPlay.Abilities
         }
 
         public IActor Actor { get; set; }
+        public Ability()
+        {
+            Settings = new();
+        }
         public void Dispose()
         {
             GC.SuppressFinalize(this);
