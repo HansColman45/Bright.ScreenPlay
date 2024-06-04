@@ -14,11 +14,10 @@ namespace Bright.ScreenPlay.Abilities
         /// <summary>
         /// This is the WebDriver property
         /// </summary>
-        public IWebDriver WebDriver { get; protected set; }
+        public IWebDriver WebDriver { get; set; }
 
-        public OpenAWebPage(IWebDriver webDriver)
+        public OpenAWebPage()
         {
-            WebDriver = webDriver;
             Settings.TakeScreenShot = false;
         }
         /// <summary>
