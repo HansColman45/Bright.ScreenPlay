@@ -245,7 +245,7 @@ namespace Bright.ScreenPlay.Abilities
             var fluentWait = new DefaultWait<IWebDriver>(WebDriver)
             {
                 Timeout = TimeSpan.FromSeconds(5),
-                PollingInterval = TimeSpan.FromSeconds(250)
+                PollingInterval = TimeSpan.FromMilliseconds(250)
             };
             fluentWait.IgnoreExceptionTypes(typeof(NoSuchElementException));
             fluentWait.IgnoreExceptionTypes(typeof(ElementClickInterceptedException));
