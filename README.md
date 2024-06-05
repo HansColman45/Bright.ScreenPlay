@@ -6,9 +6,9 @@ It provides a way to describe tests in a way that closely resembles how end-user
 This pattern focuses on modeling the user’s journey through the application and representing it as a series of tasks. 
 The main benefit of using this pattern is that it makes tests easy to understand, even for non-technical stakeholders, as the tests are described in terms of user actions.
 ## Getting Started and how to use
-In the ScreenPlay pattern, the Actors are the ones doing things. In the package, there are 2 Actors defined that can be used in your test solution.
-CallAnApi
-OpenAWebPage
+In the ScreenPlay pattern, the Actors are the ones doing things. In the package, there are 2 Actors defined that can be used in your test solution:
+- CallAnApi
+- OpenAWebPage
 ### Create an actor 
 One of the first things that you need to do when you want to use this package is to define an Actor class that can do things
 This is an example class that uses the CallAnAPI actor class:
