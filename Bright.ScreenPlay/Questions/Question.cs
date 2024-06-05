@@ -1,7 +1,4 @@
-﻿using Bright.ScreenPlay.Abilities;
-using Bright.ScreenPlay.Actors;
-
-namespace Bright.ScreenPlay.Questions
+﻿namespace Bright.ScreenPlay.Questions
 {
     public interface IQuestion<TAnswer> : IPerformable<TAnswer>
     {
