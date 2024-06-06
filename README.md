@@ -39,23 +39,48 @@ namespace x.y.z
 {
 	public class SomePage: OpenAWebPage
 	{
-			private IWebDriver webDriver;
 		public SomePage(){
 			Settings.BaseUrl = "SomeUrl"
 		}
-		public void OpenMainPage(IWebDriver webDriver)
+		public SomePage OpenMainPage(IWebDriver webDriver)
 		{
-    			WebDriver = webDriver;
-			this.webDriver = WebDriver;
-			webDriver.Navigate().GoToUrl(Settings.BaseUrl);
+			WebDriver = webDriver;
+			WebDriver.Navigate().GoToUrl(Settings.BaseUrl);
+			WebDriver.Manage().Window.Maximize();
 			WaitUntilElmentVisableByXpath("//a[@id='menuRegisterLink']");
+			return this;
 		}
 	}
 }
 ```
 In the OpenAWebpage class, there are some methods that can be used to interact with the webpage.
+### Create a Task
+To ensure the actor can do things, you need to create Task classes.
+This is an example of an implemented Task Class:
+```csharp
+using ScreenPlayExample.Abilities;
+using Task = Bright.ScreenPlay.Tasks.Task;
+
+namespace x.y.z
+{
+	public class TheTask : Task
+	{
+		public override void PerformAs(IPerformer actor) {}
+		public static void RegisterNewCustomerAs(IPerformer actor, string firstName, string lastName, string eMail, string password)
+        {
+            var page = actor.GetAbility<BTubeMainPage>().OpenRegisterPage();
+            page.FirstName = firstName;
+            page.LastName = lastName;
+            page.Email = eMail;
+            page.Password = password;
+            page.ConfirmPassword = password;
+            page.Register();
+        }
+	}
+}
+```
 ### Create a question
-To ensure the actor can do things, you need to create Question classes.
+To ensure the actor can ask the state of the program you need to create question classees.
 This is an example of an implemented Question Class:
 ```csharp
 using Bright.ScreenPlay.Actors;
@@ -69,11 +94,11 @@ namespace x.y.z
 		public static async Task<List<string>> PerformGetCodeTableAs(IPerformer actor, string table)
 		{
     			return await actor.GetAbility<CodeTableAPI>().GetCodeTable(table);
-		}	
-	}
-	public override List<string> PerformAs(IPerformer actor)
-	{
-    		return new List<string>();
+		}
+		public override List<string> PerformAs(IPerformer actor)
+		{
+    			return new List<string>();
+		}
 	}
 }
 ```

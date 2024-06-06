@@ -1,10 +1,13 @@
-﻿using Bright.ScreenPlay.Actors;
+﻿using Bright.ScreenPlay.Questions;
 
 namespace Bright.ScreenPlay.Tasks
 {
-    public interface ITask
+    public interface ITask : IPerformable
     {
-        void PerformAs(IActor actor);
-        void AttemptsTo(ITask task);
+
+    }
+    public abstract class Task : Performable, ITask
+    {
+
     }
 }
