@@ -5,25 +5,31 @@ namespace Bright.ScreenPlay.Abilities
 {
     public interface IAbility: IDisposable
     {
+        /// <summary>
+        /// The settings
+        /// </summary>
         public ScreenPlaySettings Settings { get; set; }
     }
     public class Ability : IAbility
     {   
         public ScreenPlaySettings Settings { get; set; }
-        public void As(IActor actor)
-        {
-            Actor = actor;
-            return ;
-        }
-
-        public IActor Actor { get; set; }
+        /// <summary>
+        /// Default constructor
+        /// </summary>
         public Ability()
         {
             Settings = new();
         }
-        public void Dispose()
+        protected void Dispose()
         {
-            GC.SuppressFinalize(this);
+            Settings = null;
+        }
+        /// <summary>
+        /// The Dispose function
+        /// </summary>
+        void IDisposable.Dispose()
+        {
+            Dispose();
         }
     }
 }

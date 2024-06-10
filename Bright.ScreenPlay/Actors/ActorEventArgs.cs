@@ -14,7 +14,7 @@
         /// <param name="actor">Actor.</param>
         public ActorEventArgs(IActor actor)
         {
-            if (actor == null)
+            if (actor != null)
                 throw new ArgumentNullException(nameof(actor));
 
             Actor = actor;

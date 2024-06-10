@@ -21,30 +21,43 @@ namespace Bright.ScreenPlay.Actors
         /// <param name="name">The actor's name.</param>
         public Actor(string name)
         {
-            if (name == null)
+            if (name is null)
                 throw new ArgumentNullException(nameof(name));
 
             this.name = name;
             abilityStore = new AbilityStore();
         }
-        public void IsAbleTo<TAbility>() where TAbility : IAbility, new()
+        /// <summary>
+        /// This will give the actor a new Ability
+        /// </summary>
+        /// <typeparam name="TAbility"></typeparam>
+        public void IsAbleToDoOrUse<TAbility>() where TAbility : IAbility, new()
         {
             var ability = abilityStore.Add(typeof(TAbility));
             InvokeGainedAbility(ability);
         }
-        public void IsAbleTo(Type abilityType)
+        public void IsAbleToDoOrUse(Type abilityType)
         {
             var ability = abilityStore.Add(abilityType);
             InvokeGainedAbility(ability);
         }
-        public void IsAbleTo(IAbility ability)
+        public void IsAbleToDoOrUse(IAbility ability)
         {
             abilityStore.Add(ability);
             InvokeGainedAbility(ability);
         }
         protected void InvokeGainedAbility(IAbility ability)
         {
-            var args = new GainAbilityEventArgs(this, ability);
+            _ = new GainAbilityEventArgs(this, ability);
+        }
+        /// <summary>
+        /// This will set a new Ability
+        /// </summary>
+        /// <param name="ability"></param>
+        protected void SetNewAbility(IAbility ability)
+        {
+            abilityStore.Add(ability);
+            InvokeGainedAbility(ability);
         }
         #region IPerformable implementation
         bool IPerformer.HasAbility<TAbility>()
@@ -64,11 +77,15 @@ namespace Bright.ScreenPlay.Actors
         {
             Perform<TPerformable>();
         }
-
         TResult IPerformer.Perform<TResult>(IPerformable<TResult> performable)
         {
             return Perform(performable);
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="TAbility"></typeparam>
+        /// <returns></returns>
         public virtual bool HasAbility<TAbility>() where TAbility : IAbility
         {
             return abilityStore.HasAbility<TAbility>();
@@ -79,14 +96,14 @@ namespace Bright.ScreenPlay.Actors
         /// <param name="performable">The performable item to execute.</param>
         protected virtual void Perform(IPerformable performable)
         {
-            if (ReferenceEquals(performable, null))
+            if (performable is null)
                 throw new ArgumentNullException(nameof(performable));
 
             try
             {
                 performable.PerformAs(this);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 throw;
             }
@@ -108,7 +125,7 @@ namespace Bright.ScreenPlay.Actors
         /// <typeparam name="TResult">The result type.</typeparam>
         protected virtual TResult Perform<TResult>(IPerformable<TResult> performable)
         {
-            if (ReferenceEquals(performable, null))
+            if (performable is null)
                 throw new ArgumentNullException(nameof(performable));
 
             TResult result;
@@ -117,7 +134,7 @@ namespace Bright.ScreenPlay.Actors
             {
                 result = performable.PerformAs(this);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 throw;
             }
@@ -133,13 +150,21 @@ namespace Bright.ScreenPlay.Actors
         {
             var ability = abilityStore.GetAbility<TAbility>();
 
-            if (ReferenceEquals(ability, null))
+            if (ability is null)
             {
                 var message = String.Format(Name, typeof(TAbility).Name);
                 throw new MissingAbilityException(message);
             }
 
             return ability;
+        }
+        /// <summary>
+        /// Will set a new abillity
+        /// </summary>
+        /// <param name="ability"></param>
+        void IPerformer.SetAbility(IAbility ability)
+        {
+            SetNewAbility(ability);
         }
         #endregion
     }

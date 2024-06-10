@@ -7,6 +7,7 @@ namespace Bright.ScreenPlay.Actors
     {
         bool HasAbility<TAbility>() where TAbility : IAbility;
         TAbility GetAbility<TAbility>() where TAbility : IAbility;
+        void SetAbility(IAbility ability);
         void Perform(IPerformable performable); 
         void Perform<TPerformable>() where TPerformable : IPerformable, new();
         TResult Perform<TResult>(IPerformable<TResult> performable);

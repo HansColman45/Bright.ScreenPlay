@@ -16,7 +16,7 @@ namespace Bright.ScreenPlay.Actors
         public IAbility Ability { get; private set; }
         public GainAbilityEventArgs(IActor actor, IAbility ability) : base(actor)
         {
-            if (ability == null)
+            if (ability is null)
                 throw new ArgumentNullException(nameof(ability));
             
             Ability = ability;

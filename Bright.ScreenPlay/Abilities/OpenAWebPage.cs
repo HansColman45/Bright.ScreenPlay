@@ -304,6 +304,10 @@ namespace Bright.ScreenPlay.Abilities
             IWebElement element = fluentWait.Until(x => x.FindElement(By.XPath(xpath)));
             return element.GetAttribute(property);
         }
+        /// <summary>
+        /// This will make a screenshot
+        /// </summary>
+        /// <param name="step"></param>
         public void TakeScreenShot(string step)
         {
             if (Settings.TakeScreenShot)
@@ -329,6 +333,13 @@ namespace Bright.ScreenPlay.Abilities
             IWebElement s = WebDriver.FindElement(by);
             IJavaScriptExecutor je = (IJavaScriptExecutor)WebDriver;
             je.ExecuteScript("arguments[0].scrollIntoView(false);", s);
+        }
+        /// <summary>
+        /// This funtion will make shure the Webdriver is closed
+        /// </summary>
+        public new void Dispose()
+        {   
+            WebDriver?.Quit();
         }
         private static Func<IWebDriver, IWebElement> Condition(By locator)
         {

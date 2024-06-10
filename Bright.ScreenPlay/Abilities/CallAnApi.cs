@@ -1,6 +1,4 @@
-﻿using Bright.ScreenPlay.Actors;
-
-namespace Bright.ScreenPlay.Abilities
+﻿namespace Bright.ScreenPlay.Abilities
 {
     public class CallAnApi : Ability
     {
@@ -18,6 +16,11 @@ namespace Bright.ScreenPlay.Abilities
                 }
             };
             _client = new HttpClient(clientHandler);
+        }
+
+        public new void Dispose()
+        {
+            ApiClient.Dispose();
         }
     }
 }

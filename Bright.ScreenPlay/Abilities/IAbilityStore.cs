@@ -1,6 +1,6 @@
 ﻿namespace Bright.ScreenPlay.Abilities
 {
-    public interface IAbilityStore :IDisposable
+    public interface IAbilityStore : IDisposable
     {
         /// <summary>
         /// Determines whether or not the current instance contains an ability or not.
