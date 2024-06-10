@@ -1,6 +1,5 @@
 ﻿using Bright.ScreenPlay.Abilities;
 using Bright.ScreenPlay.Questions;
-using System.Resources;
 
 namespace Bright.ScreenPlay.Actors
 {

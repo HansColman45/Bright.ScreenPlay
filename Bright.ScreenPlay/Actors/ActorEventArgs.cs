@@ -5,16 +5,16 @@
         /// <summary>
         /// Gets the actor.
         /// </summary>
-        /// <value>The actor.</value>
+        /// <value>The actor</value>
         public IActor Actor { get; private set; }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="T:CSF.Screenplay.Actors.ActorEventArgs"/> class.
+        /// Initializes a new instance of the Actor class.
         /// </summary>
         /// <param name="actor">Actor.</param>
         public ActorEventArgs(IActor actor)
         {
-            if (actor != null)
+            if (actor is null)
                 throw new ArgumentNullException(nameof(actor));
 
             Actor = actor;
