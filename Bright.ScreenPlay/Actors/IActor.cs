@@ -36,11 +36,19 @@ namespace Bright.ScreenPlay.Actors
             var ability = abilityStore.Add(typeof(TAbility));
             InvokeGainedAbility(ability);
         }
+        /// <summary>
+        /// This will give the actor a new Ability
+        /// </summary>
+        /// <param name="abilityType"></param>
         public void IsAbleToDoOrUse(Type abilityType)
         {
             var ability = abilityStore.Add(abilityType);
             InvokeGainedAbility(ability);
         }
+        /// <summary>
+        /// This will give the actor a new Ability
+        /// </summary>
+        /// <param name="abilityType"></param>
         public void IsAbleToDoOrUse(IAbility ability)
         {
             abilityStore.Add(ability);

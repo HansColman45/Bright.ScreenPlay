@@ -124,7 +124,7 @@ namespace ScreenPlayExample.StepDefinitions
         {
             _table = table;
             joe = new Actor("Joe");
-            joe.IsAbleTo<CodeTableAPI>();
+            joe.IsAbleToDoOrUse<CodeTableAPI>();
         }
 
         [When(@"I send the request to search the code table")]

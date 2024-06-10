@@ -17,7 +17,9 @@
             };
             _client = new HttpClient(clientHandler);
         }
-
+        /// <summary>
+        /// This is the dispose function
+        /// </summary>
         public new void Dispose()
         {
             ApiClient.Dispose();
