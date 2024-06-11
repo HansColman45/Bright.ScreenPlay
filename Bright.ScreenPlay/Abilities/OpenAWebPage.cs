@@ -24,7 +24,7 @@ namespace Bright.ScreenPlay.Abilities
         /// This function will click an Element using XPath
         /// </summary>
         /// <param name="xpath">The xpath</param>
-        protected void ClickElementByXpath(string xpath)
+        public void ClickElementByXpath(string xpath)
         {
             log.Debug("Clicking ellement by xpath: {0}", xpath);
             Thread.Sleep(50);
@@ -56,7 +56,7 @@ namespace Bright.ScreenPlay.Abilities
         /// This function will click an ellement using CSS
         /// </summary>
         /// <param name="CSS">The CSS</param>
-        protected void ClickElementByCSS(string CSS)
+        public void ClickElementByCSS(string CSS)
         {
             log.Debug("Clicking ellement by css: {0}", CSS);
             var wait = new WebDriverWait(WebDriver, TimeSpan.FromSeconds(30));
@@ -69,7 +69,7 @@ namespace Bright.ScreenPlay.Abilities
         /// </summary>
         /// <param name="xPath">The XPath</param>
         /// <param name="textToEnter">The text to enter</param>
-        protected void EnterInTextboxByXPath(string xPath, string textToEnter)
+        public void EnterInTextboxByXPath(string xPath, string textToEnter)
         {
             log.Debug("Enter in ellement by xpath: {0}, {1}", xPath, textToEnter);
             try
@@ -93,7 +93,7 @@ namespace Bright.ScreenPlay.Abilities
                 Thread.Sleep(500);
             }
         }
-        protected void EnterDateTimeByXPath(string xPath, DateTime dateTime)
+        public void EnterDateTimeByXPath(string xPath, DateTime dateTime)
         {
             Thread.Sleep(500);
             var fluentWait = new WebDriverWait(WebDriver, TimeSpan.FromSeconds(100))
@@ -110,7 +110,7 @@ namespace Bright.ScreenPlay.Abilities
             element.SendKeys($"{dateTime:hh:mm}");
             element.SendKeys($"{dateTime:tt}");
         }
-        protected void SendTab(By by)
+        public void SendTab(By by)
         {
             IWebElement element = WebDriver.FindElement(by);
             element.SendKeys(Keys.Tab);
@@ -120,7 +120,7 @@ namespace Bright.ScreenPlay.Abilities
         /// </summary>
         /// <param name="xPath">The Xpath</param>
         /// <param name="value">The value to select</param>
-        protected void SelectValueInDropDownByXpath(string xPath, string value)
+        public void SelectValueInDropDownByXpath(string xPath, string value)
         {
             log.Debug("Select value in dropdown by xpath: {0}, {1}", xPath, value);
             Thread.Sleep(500);
@@ -136,7 +136,7 @@ namespace Bright.ScreenPlay.Abilities
         /// </summary>
         /// <param name="xPath">The Xpath</param>
         /// <param name="text">The text to select</param>
-        protected void SelectTektInDropDownByXpath(string xPath, string text)
+        public void SelectTektInDropDownByXpath(string xPath, string text)
         {
             log.Debug("Select value in dropdown by xpath: {0}, {1}", xPath, text);
             Thread.Sleep(500);
@@ -152,7 +152,7 @@ namespace Bright.ScreenPlay.Abilities
         /// </summary>
         /// <param name="CSS">The CSS</param>
         /// <param name="textToEnter">The text to enter</param>
-        protected void EnterInTextboxByCSS(string CSS, string textToEnter)
+        public void EnterInTextboxByCSS(string CSS, string textToEnter)
         {
             log.Debug("Enter in ellement by CSS: {0}, {1}", CSS, textToEnter);
             var fluentWait = new DefaultWait<IWebDriver>(WebDriver)
@@ -172,7 +172,7 @@ namespace Bright.ScreenPlay.Abilities
         /// </summary>
         /// <param name="xpath">The XPath</param>
         /// <returns>The text from the element</returns>
-        protected string TekstFromElementByXpath(string xpath)
+        public string TekstFromElementByXpath(string xpath)
         {
             log.Debug("Get tekst from ellement by xpath: {0}", xpath);
             var fluentWait = new DefaultWait<IWebDriver>(WebDriver)
@@ -190,7 +190,7 @@ namespace Bright.ScreenPlay.Abilities
         /// </summary>
         /// <param name="xpath"></param>
         /// <returns></returns>
-        protected string TekstFromTextBox(string xpath)
+        public string TekstFromTextBox(string xpath)
         {
             log.Debug("Get tekst from ellement by xpath: {0}", xpath);
             var fluentWait = new DefaultWait<IWebDriver>(WebDriver)
@@ -203,7 +203,7 @@ namespace Bright.ScreenPlay.Abilities
             IWebElement element = fluentWait.Until(x => x.FindElement(By.XPath(xpath)));
             return element.GetAttribute("value");
         }
-        protected string GetSelectedValueFromDropDownByXpath(string xpath)
+        public string GetSelectedValueFromDropDownByXpath(string xpath)
         {
             log.Debug("Get selected value from Dropdown by xpath: {0}", xpath);
             var fluentWait = new DefaultWait<IWebDriver>(WebDriver)
@@ -222,7 +222,7 @@ namespace Bright.ScreenPlay.Abilities
         /// </summary>
         /// <param name="css">The CSS</param>
         /// <returns>The text from the element</returns>
-        protected string TekstFromElementByCss(string css)
+        public string TekstFromElementByCss(string css)
         {
             log.Debug("Get tekst from ellement by css: {0}", css);
             var fluentWait = new DefaultWait<IWebDriver>(WebDriver)
@@ -239,7 +239,7 @@ namespace Bright.ScreenPlay.Abilities
         /// This function will wait until an element is visable using XPath
         /// </summary>
         /// <param name="xptah">The xpath</param>
-        protected void WaitUntilElmentVisableByXpath(string xptah)
+        public void WaitUntilElmentVisableByXpath(string xptah)
         {
             log.Debug("Wait Until Element Vissable by Xpath: {0}", xptah);
             var fluentWait = new DefaultWait<IWebDriver>(WebDriver)
@@ -255,7 +255,7 @@ namespace Bright.ScreenPlay.Abilities
         /// This function will wait until an element is visable using CSS
         /// </summary>
         /// <param name="CSS">The CSS</param>
-        protected void WaitUntilElmentVisableByCSS(string CSS)
+        public void WaitUntilElmentVisableByCSS(string CSS)
         {
             log.Debug("Wait Until Element Vissable by CSS: {0}", CSS);
             var fluentWait = new DefaultWait<IWebDriver>(WebDriver)
@@ -272,7 +272,7 @@ namespace Bright.ScreenPlay.Abilities
         /// </summary>
         /// <param name="by">The way you want to select the element</param>
         /// <returns>bool</returns>
-        protected bool IsElementVisable(By by)
+        public bool IsElementVisable(By by)
         {
             try
             {
@@ -291,7 +291,7 @@ namespace Bright.ScreenPlay.Abilities
         /// <param name="xpath">The xpath</param>
         /// <param name="property">The property</param>
         /// <returns></returns>
-        protected string GetAttributeFromXpath(string xpath, string property)
+        public string GetAttributeFromXpath(string xpath, string property)
         {
             log.Debug("Get property {0} from ellement by xpath: {1}", property, xpath);
             var fluentWait = new DefaultWait<IWebDriver>(WebDriver)
