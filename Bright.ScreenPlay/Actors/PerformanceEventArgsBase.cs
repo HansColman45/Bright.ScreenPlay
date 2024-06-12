@@ -2,7 +2,7 @@
 {
     public class PerformanceEventArgsBase : ActorEventArgs
     {
-        public PerformanceEventArgsBase(IActor actor) : base(actor)
+        public PerformanceEventArgsBase(Actor actor) : base(actor)
         {
         }
     }

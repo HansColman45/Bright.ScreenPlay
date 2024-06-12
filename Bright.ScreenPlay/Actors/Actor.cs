@@ -101,7 +101,7 @@ namespace Bright.ScreenPlay.Actors
         /// Performs an action or task.
         /// </summary>
         /// <param name="performable">The performable item to execute.</param>
-        protected virtual void Perform(IPerformable performable)
+        protected void Perform(IPerformable performable)
         {
             if (performable is null)
                 throw new ArgumentNullException(nameof(performable));
@@ -119,10 +119,20 @@ namespace Bright.ScreenPlay.Actors
         /// Performs an action or task which has a public parameterless constructor.
         /// </summary>
         /// <typeparam name="TPerformable">The type of the performable item to execute.</typeparam>
-        protected virtual void Perform<TPerformable>() where TPerformable : IPerformable, new()
+        public void Perform<TPerformable>() where TPerformable : IPerformable, new()
         {
             var performable = Activator.CreateInstance<TPerformable>();
             Perform(performable);
+        }
+        /// <summary>
+        /// Performs a question which returns a result value.
+        /// </summary>
+        /// <typeparam name="TQuestion"></typeparam>
+        /// <typeparam name="TResult"></typeparam>
+        /// <param name="question"></param>
+        public void TResult<TQuestion, TResult>(TQuestion question) where TQuestion : Question<TResult>
+        {
+            Perform(question);
         }
         /// <summary>
         /// Performs an action, task or asks a question which returns a result value.
