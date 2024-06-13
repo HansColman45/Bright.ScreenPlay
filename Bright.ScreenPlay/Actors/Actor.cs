@@ -140,7 +140,7 @@ namespace Bright.ScreenPlay.Actors
         /// <returns>The result of performing the item</returns>
         /// <param name="performable">The performable item to execute.</param>
         /// <typeparam name="TResult">The result type.</typeparam>
-        protected virtual TResult Perform<TResult>(IPerformable<TResult> performable)
+        public virtual TResult Perform<TResult>(IPerformable<TResult> performable)
         {
             if (performable is null)
                 throw new ArgumentNullException(nameof(performable));
