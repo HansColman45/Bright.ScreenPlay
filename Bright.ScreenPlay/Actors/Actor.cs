@@ -125,21 +125,11 @@ namespace Bright.ScreenPlay.Actors
             Perform(performable);
         }
         /// <summary>
-        /// Performs a question which returns a result value.
-        /// </summary>
-        /// <typeparam name="TQuestion"></typeparam>
-        /// <typeparam name="TResult"></typeparam>
-        /// <param name="question"></param>
-        public void TResult<TQuestion, TResult>(TQuestion question) where TQuestion : Question<TResult>
-        {
-            Perform(question);
-        }
-        /// <summary>
         /// Performs an action, task or asks a question which returns a result value.
         /// </summary>
         /// <returns>The result of performing the item</returns>
         /// <param name="performable">The performable item to execute.</param>
-        /// <typeparam name="TResult">The result type.</typeparam>
+        /// <typeparam name="TResult">The result type</typeparam>
         public virtual TResult Perform<TResult>(IPerformable<TResult> performable)
         {
             if (performable is null)
