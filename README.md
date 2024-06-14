@@ -3,14 +3,16 @@ A lightweight ScreenPlay Package
 ## ScreenPlay Design Pattern
 The Screenplay Design Pattern, introduced by Serenity BDD framework, is a high-level, user-centered approach to test automation. 
 It provides a way to describe tests in a way that closely resembles how end-users interact with the system. 
-This pattern focuses on modeling the user’s journey through the application and representing it as a series of tasks. 
+This pattern focuses on modeling the users journey through the application and representing it as a series of tasks. 
 The main benefit of using this pattern is that it makes tests easy to understand, even for non-technical stakeholders, as the tests are described in terms of user actions.
+The main pricle is displayed in this scema:
+![main](./image.png)
 ## Getting Started and how to use
 In the ScreenPlay pattern, the Actors are the ones doing things. In the package, there are 2 Actors defined that can be used in your test solution:
 - CallAnApi
 - OpenAWebPage
-### Create an actor 
-One of the first things that you need to do when you want to use this package is to define an Actor class that can do things
+### Create an ability 
+One of the first things that you need to do when you want to use this package is to define an Ability class that can do things
 This is an example class that uses the CallAnAPI actor class:
 ```csharp
 using Bright.ScreenPlay.Abilities;
@@ -103,7 +105,76 @@ namespace x.y.z
 }
 ```
 As you can see the Question class requires you to think about the response and also requires you to implement the PerformAs method.
+### Create an actor
+To make your tests more readable you can create an actor class.
+In the actor class you can define the abilities that the actor has and also define the Taks and Questions the Actor can perform.
+This is an example of an implemented Actor class:
+```csharp
+using Bright.ScreenPlay.Actors;
+using ScreenPlayExample.Abilities;
+using ScreenPlayExample.Questions;
 
+namespace x.y.z
+{
+	public class Joe : Actor
+	{
+		public Joe() : base("Joe")
+		{
+			IsAbleToDoOrUse<SomeApi>();
+		}
+		public async Task<List<string>> GetCodeTable(string table)
+		{
+			return await TheQuestion.PerformGetCodeTableAs(this, table);
+		}
+	}
+}
+```
+An example for an actor that can open a webpage:
+```csharp
+using Bright.ScreenPlay.Actors;
+using CMDB.Domain.Entities;
+using CMDB.UI.Specflow.Abilities.Data;
+using CMDB.UI.Specflow.Abilities.Pages;
+using CMDB.UI.Specflow.Questions;
+using CMDB.UI.Specflow.Tasks;
+
+namespace CMDB.UI.Specflow.Actors
+{
+    public class CMDBActor : Actor
+    {
+        protected readonly ScenarioContext _scenarioContext;
+        protected readonly Random rnd = new();
+        protected Admin admin;
+        protected int rndNr;
+        public  string ExpectedLog { get; set; }
+        public CMDBActor(ScenarioContext scenarioContext, string name = "CMDB") : base(name)
+        {
+            IsAbleToDoOrUse<DataContext>();
+            IsAbleToDoOrUse<LoginPage>();
+            _scenarioContext = scenarioContext;
+        }
+        public async Task<Admin> CreateNewAdmin()
+        {
+            var context = GetAbility<DataContext>();
+            admin = await context.CreateNewAdmin();
+            return admin;
+        }
+        public void DoLogin(string userName, string password)
+        {
+            Perform<OpenTheLoginPageTasks>();
+            var page = GetAbility<LoginPage>();
+            page.TakeScreenShot($"{_scenarioContext.ScenarioInfo.Title}_{_scenarioContext.CurrentScenarioBlock}_Login");
+            page.UserId = userName;
+            page.TakeScreenShot($"{_scenarioContext.ScenarioInfo.Title}_{_scenarioContext.CurrentScenarioBlock}_EnterUserId");
+            page.Password = password;
+            page.TakeScreenShot($"{_scenarioContext.ScenarioInfo.Title}_{_scenarioContext.CurrentScenarioBlock}_EnterPassword");
+            MainPage mainPage = Perform(new OpenTheMainPage());
+            page.TakeScreenShot($"{_scenarioContext.ScenarioInfo.Title}_{_scenarioContext.CurrentScenarioBlock}_LogedIn");
+            IsAbleToDoOrUse(mainPage);
+        }
+    }
+}
+```
 ### Usage in the tests
 This is an example of how you can use the ScreenPlay package in your tests:
 ```csharp
@@ -116,21 +187,20 @@ namespace ScreenPlayExample.StepDefinitions
     [Binding]
     public class CodeTableStepDefinitions
     {
-        private Actor joe;
+        private Joe joe;
         private string _table;
         private List<string> _results;
         [Given(@"I want to search the (.*)")]
         public void GivenIWantToSearchTheTable(string table)
         {
             _table = table;
-            joe = new Actor("Joe");
-            joe.IsAbleToDoOrUse<CodeTableAPI>();
+            joe = new Actor();
         }
 
         [When(@"I send the request to search the code table")]
         public async Task WhenISendTheRequestToSearchTheCodeTable()
         {
-            _results = await TheCodeTable.PerformGetCodeTableAs(joe, _table);
+            _results = await joe.GetCodeTable(_table);
         }
 
         [Then(@"The results of that table should contain data")]
@@ -138,6 +208,42 @@ namespace ScreenPlayExample.StepDefinitions
         {
             _results.Should().NotBeEmpty();
             _results.Count.Should().BeGreaterThan(1);
+        }
+    }
+}
+```
+an other example of how you can use the ScreenPlay package in your tests:
+```csharp
+using CMDB.Domain.Entities;
+using CMDB.UI.Specflow.Actors;
+using CMDB.UI.Specflow.Questions;
+
+namespace CMDB.UI.Specflow.StepDefinitions
+{
+    [Binding]
+    public class LoginStepDefinitions: TestBase
+    {
+        readonly CMDBActor actor;
+
+        public LoginStepDefinitions(ScenarioContext scenarioContext) : base(scenarioContext)
+        {
+            actor = new(scenarioContext);
+        }
+        [Given(@"I open the home page")]
+        public async Task GivenIOpenTheHomePage()
+        {
+            Admin = await actor.CreateNewAdmin();
+        }
+        [When(@"I logon with a valid user name and password")]
+        public void WhenILogonWithAValidUserNameAndPassword()
+        {
+            actor.DoLogin(Admin.Account.UserID, "1234");
+        }
+        [Then(@"I can logon")]
+        public void ThenICanLogon()
+        {
+            bool result = actor.Perform(new IsTheUserLoggedIn());
+            result.Should().BeTrue();
         }
     }
 }
