@@ -27,5 +27,9 @@
         /// </summary>
         /// <param name="abilityType">The ability type.</param>
         public IAbility Add(Type abilityType);
+        /// <summary>
+        /// Returns the list of abilities.
+        /// </summary>
+        public List<IAbility> Abilities { get; }
     }
 }

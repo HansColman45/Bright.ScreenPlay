@@ -12,6 +12,10 @@ namespace Bright.ScreenPlay.Abilities
             abilities = new List<IAbility>();
         }
         /// <summary>
+        /// The list of abilities
+        /// </summary>
+        public List<IAbility> Abilities => abilities;
+        /// <summary>
         /// This will adds a new Ability 
         /// </summary>
         /// <param name="ability"></param>

@@ -66,6 +66,10 @@ namespace Bright.ScreenPlay.Actors
             abilityStore.Add(ability);
             InvokeGainedAbility(ability);
         }
+        public List<IAbility> GetAbilities()
+        {
+            return abilityStore.Abilities;
+        }
         #region IPerformable implementation
         bool IPerformer.HasAbility<TAbility>()
         {

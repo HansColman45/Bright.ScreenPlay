@@ -54,5 +54,17 @@ namespace Bright.UnitTest
             // Assert
             result.Should().Be("Test");
         }
+        [TestMethod]
+        public void Actor_WIthMultipleAbilites_can_chech_the_amount()
+        {
+            // Arrange
+            var actor = new Actor("John");
+            actor.IsAbleToDoOrUse<CallAnApi>();
+            actor.IsAbleToDoOrUse<OpenAWebPage>();
+            // Act
+            var abilities = actor.GetAbilities();
+            // Assert
+            abilities.Should().HaveCount(2);
+        }
     }
 }
