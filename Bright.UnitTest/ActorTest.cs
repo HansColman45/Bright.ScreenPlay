@@ -66,5 +66,18 @@ namespace Bright.UnitTest
             // Assert
             abilities.Should().HaveCount(2);
         }
+        [TestMethod]
+        public void Actor_WithAnAbilityAsAswers_GetsTheNewAbility()
+        {
+            // Arrange
+            var actor = new Actor("John");
+            actor.IsAbleToDoOrUse<CallAnApi>();
+            //Act
+            var test = actor.Perform(new TheTestAbilityAnswer());
+            //arange
+            var abilities = actor.GetAbilities();
+            abilities.Should().HaveCount(2);
+            test.WebUrl.Should().Be("Test");
+        }
     }
 }

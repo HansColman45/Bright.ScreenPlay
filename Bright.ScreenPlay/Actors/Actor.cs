@@ -144,6 +144,10 @@ namespace Bright.ScreenPlay.Actors
             try
             {
                 result = performable.PerformAs(this);
+                if(result is IAbility)
+                {
+                    IsAbleToDoOrUse(result as IAbility);
+                }
             }
             catch (Exception)
             {
