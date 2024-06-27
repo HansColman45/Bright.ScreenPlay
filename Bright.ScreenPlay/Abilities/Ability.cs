@@ -1,5 +1,4 @@
-﻿using Bright.ScreenPlay.Actors;
-using Bright.ScreenPlay.Settings;
+﻿using Bright.ScreenPlay.Settings;
 
 namespace Bright.ScreenPlay.Abilities
 {
@@ -9,6 +8,7 @@ namespace Bright.ScreenPlay.Abilities
         /// The settings
         /// </summary>
         public ScreenPlaySettings Settings { get; set; }
+        public string Name => nameof(IAbility);
     }
     public class Ability : IAbility
     {   
