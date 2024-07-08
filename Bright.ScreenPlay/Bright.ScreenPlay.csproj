@@ -17,7 +17,7 @@
   
   <PropertyGroup>
 	  <Version></Version>
-    <VersionPrefix>2.0.9</VersionPrefix>
+    <VersionPrefix>2.0.10</VersionPrefix>
     <VersionSuffix></VersionSuffix>
     <PackageProjectUrl>https://github.com/HansColman45/Bright.ScreenPlay</PackageProjectUrl>
   </PropertyGroup>

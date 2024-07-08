@@ -7,6 +7,7 @@ namespace Bright.ScreenPlay.Abilities
 {
     public class OpenAWebPage : Ability
     {
+        protected readonly WebSettings settings;
         /// <summary>
         /// This is the NLog property
         /// </summary>
@@ -18,7 +19,11 @@ namespace Bright.ScreenPlay.Abilities
 
         public OpenAWebPage()
         {
-            Settings.TakeScreenShot = false;
+            settings = new()
+            {
+                TakeScreenShot = false
+            };
+            Settings = settings;
         }
         /// <summary>
         /// This function will click an Element using XPath
@@ -26,11 +31,11 @@ namespace Bright.ScreenPlay.Abilities
         /// <param name="xpath">The xpath</param>
         public void ClickElementByXpath(string xpath)
         {
-            log.Debug("Clicking ellement by xpath: {0}", xpath);
-            Thread.Sleep(50);
+            log.Debug($"Clicking ellement using xpath: {xpath}");
+            Thread.Sleep(settings.ShortTimeOutInMilSec);
             try
             {
-                var fluentWait = new WebDriverWait(WebDriver, TimeSpan.FromSeconds(20));
+                var fluentWait = new WebDriverWait(WebDriver, TimeSpan.FromSeconds(settings.LongTimeOutInSec));
                 fluentWait.IgnoreExceptionTypes(typeof(NoSuchElementException));
                 fluentWait.IgnoreExceptionTypes(typeof(ElementClickInterceptedException));
                 fluentWait.IgnoreExceptionTypes(typeof(ElementNotInteractableException));
@@ -43,7 +48,7 @@ namespace Bright.ScreenPlay.Abilities
                 {
                     throw;
                 }
-                Thread.Sleep(700);
+                Thread.Sleep(settings.ShortTimeOutInMilSec);
             }
             catch (StaleElementReferenceException ex)
             {
@@ -58,11 +63,11 @@ namespace Bright.ScreenPlay.Abilities
         /// <param name="CSS">The CSS</param>
         public void ClickElementByCSS(string CSS)
         {
-            log.Debug("Clicking ellement by css: {0}", CSS);
-            var wait = new WebDriverWait(WebDriver, TimeSpan.FromSeconds(30));
+            log.Debug($"Clicking ellement using css: {CSS}");
+            var wait = new WebDriverWait(WebDriver, TimeSpan.FromSeconds(settings.LongTimeOutInSec));
             IWebElement element = wait.Until(Condition(By.CssSelector(CSS)));
             element.Click();
-            Thread.Sleep(700);
+            Thread.Sleep(settings.ShortTimeOutInMilSec);
         }
         /// <summary>
         /// This function will enter a given text in a TextBox using the Xpath
@@ -71,18 +76,18 @@ namespace Bright.ScreenPlay.Abilities
         /// <param name="textToEnter">The text to enter</param>
         public void EnterInTextboxByXPath(string xPath, string textToEnter)
         {
-            log.Debug("Enter in ellement by xpath: {0}, {1}", xPath, textToEnter);
+            log.Debug($"Enter text: {textToEnter} using xpath: {xPath}");
             try
             {
-                Thread.Sleep(500);
-                var fluentWait = new WebDriverWait(WebDriver, TimeSpan.FromSeconds(100));
+                Thread.Sleep(settings.ShortTimeOutInMilSec);
+                var fluentWait = new WebDriverWait(WebDriver, TimeSpan.FromSeconds(settings.LongTimeOutInSec));
                 fluentWait.IgnoreExceptionTypes(typeof(NoSuchElementException));
                 fluentWait.IgnoreExceptionTypes(typeof(ElementClickInterceptedException));
                 IWebElement element = fluentWait.Until(x => x.FindElement(By.XPath(xPath)));
                 element.Click();
                 element.Clear();
                 element.SendKeys(textToEnter);
-                Thread.Sleep(500);
+                Thread.Sleep(settings.ShortTimeOutInMilSec);
             }
             catch (StaleElementReferenceException ex)
             {
@@ -90,15 +95,21 @@ namespace Bright.ScreenPlay.Abilities
                 IWebElement element = WebDriver.FindElement(By.XPath(xPath));
                 element.Click();
                 element.SendKeys(textToEnter);
-                Thread.Sleep(500);
+                Thread.Sleep(settings.ShortTimeOutInMilSec);
             }
         }
+        /// <summary>
+        /// This function will enter a Date in a DateTime textbox using the Xpath
+        /// </summary>
+        /// <param name="xPath"></param>
+        /// <param name="dateTime"></param>
         public void EnterDateTimeByXPath(string xPath, DateTime dateTime)
         {
-            Thread.Sleep(500);
-            var fluentWait = new WebDriverWait(WebDriver, TimeSpan.FromSeconds(100))
+            log.Debug($"Enter date: {dateTime:dd-MM-yyyy HH:mm} using xpath: {xPath}");
+            Thread.Sleep(settings.ShortTimeOutInMilSec);
+            var fluentWait = new WebDriverWait(WebDriver, TimeSpan.FromSeconds(settings.LongTimeOutInSec))
             {
-                PollingInterval = TimeSpan.FromMilliseconds(150)
+                PollingInterval = TimeSpan.FromMilliseconds(settings.PollingIntervallInMilSec)
             };
             fluentWait.IgnoreExceptionTypes(typeof(NoSuchElementException));
             fluentWait.IgnoreExceptionTypes(typeof(ElementClickInterceptedException));
@@ -110,6 +121,10 @@ namespace Bright.ScreenPlay.Abilities
             element.SendKeys($"{dateTime:hh:mm}");
             element.SendKeys($"{dateTime:tt}");
         }
+        /// <summary>
+        /// This function will send a tab to an element
+        /// </summary>
+        /// <param name="by"></param>
         public void SendTab(By by)
         {
             IWebElement element = WebDriver.FindElement(by);
@@ -122,11 +137,11 @@ namespace Bright.ScreenPlay.Abilities
         /// <param name="value">The value to select</param>
         public void SelectValueInDropDownByXpath(string xPath, string value)
         {
-            log.Debug("Select value in dropdown by xpath: {0}, {1}", xPath, value);
-            Thread.Sleep(500);
+            log.Debug($"Select value: {value} in dropdown by xpath: {xPath}");
+            Thread.Sleep(settings.ShortTimeOutInMilSec);
             try
             {
-                var fluentWait = new WebDriverWait(WebDriver, TimeSpan.FromSeconds(100));
+                var fluentWait = new WebDriverWait(WebDriver, TimeSpan.FromSeconds(settings.LongTimeOutInSec));
                 fluentWait.IgnoreExceptionTypes(typeof(NoSuchElementException));
                 fluentWait.IgnoreExceptionTypes(typeof(ElementClickInterceptedException));
                 IWebElement element = fluentWait.Until(x => x.FindElement(By.XPath(xPath)));
@@ -146,11 +161,11 @@ namespace Bright.ScreenPlay.Abilities
         /// <param name="text">The text to select</param>
         public void SelectTektInDropDownByXpath(string xPath, string text)
         {
-            log.Debug("Select value in dropdown by xpath: {0}, {1}", xPath, text);
-            Thread.Sleep(500);
+            log.Debug($"Select text {text} in dropdown by xpath: {xPath}");
+            Thread.Sleep(settings.ShortTimeOutInMilSec);
             try
             {
-                var fluentWait = new WebDriverWait(WebDriver, TimeSpan.FromSeconds(100));
+                var fluentWait = new WebDriverWait(WebDriver, TimeSpan.FromSeconds(settings.LongTimeOutInSec));
                 fluentWait.IgnoreExceptionTypes(typeof(NoSuchElementException));
                 fluentWait.IgnoreExceptionTypes(typeof(ElementClickInterceptedException));
                 IWebElement element = fluentWait.Until(x => x.FindElement(By.XPath(xPath)));
@@ -170,20 +185,20 @@ namespace Bright.ScreenPlay.Abilities
         /// <param name="textToEnter">The text to enter</param>
         public void EnterInTextboxByCSS(string CSS, string textToEnter)
         {
-            log.Debug("Enter in ellement by CSS: {0}, {1}", CSS, textToEnter);
+            log.Debug($"Enter text: {textToEnter} ellement by CSS: {0}");
             try
             {
                 var fluentWait = new DefaultWait<IWebDriver>(WebDriver)
                 {
-                    Timeout = TimeSpan.FromSeconds(5),
-                    PollingInterval = TimeSpan.FromMilliseconds(250)
+                    Timeout = TimeSpan.FromSeconds(settings.LongTimeOutInSec),
+                    PollingInterval = TimeSpan.FromMilliseconds(150)
                 };
                 fluentWait.IgnoreExceptionTypes(typeof(NoSuchElementException));
                 fluentWait.IgnoreExceptionTypes(typeof(ElementClickInterceptedException));
                 IWebElement element = fluentWait.Until(Condition(By.CssSelector(CSS)));
                 element.Click();
                 element.SendKeys(textToEnter);
-                Thread.Sleep(500);
+                Thread.Sleep(settings.ShortTimeOutInMilSec);
             }
             catch (Exception e) 
             { 
@@ -198,13 +213,13 @@ namespace Bright.ScreenPlay.Abilities
         /// <returns>The text from the element</returns>
         public string TekstFromElementByXpath(string xpath)
         {
-            log.Debug("Get tekst from ellement by xpath: {0}", xpath);
+            log.Debug($"Get tekst from ellement by xpath: {xpath}");
             try
             {
                 var fluentWait = new DefaultWait<IWebDriver>(WebDriver)
                 {
-                    Timeout = TimeSpan.FromSeconds(10),
-                    PollingInterval = TimeSpan.FromMilliseconds(250)
+                    Timeout = TimeSpan.FromSeconds(settings.LongTimeOutInSec),
+                    PollingInterval = TimeSpan.FromMilliseconds(settings.PollingIntervallInMilSec)
                 };
                 fluentWait.IgnoreExceptionTypes(typeof(NoSuchElementException));
                 fluentWait.IgnoreExceptionTypes(typeof(ElementClickInterceptedException));
@@ -229,8 +244,8 @@ namespace Bright.ScreenPlay.Abilities
             {
                 var fluentWait = new DefaultWait<IWebDriver>(WebDriver)
                 {
-                    Timeout = TimeSpan.FromSeconds(10),
-                    PollingInterval = TimeSpan.FromMilliseconds(250)
+                    Timeout = TimeSpan.FromSeconds(settings.LongTimeOutInSec),
+                    PollingInterval = TimeSpan.FromMilliseconds(settings.PollingIntervallInMilSec)
                 };
                 fluentWait.IgnoreExceptionTypes(typeof(NoSuchElementException));
                 fluentWait.IgnoreExceptionTypes(typeof(ElementClickInterceptedException));
@@ -243,15 +258,20 @@ namespace Bright.ScreenPlay.Abilities
                 throw;
             }
         }
+        /// <summary>
+        /// This function will get the selected value from a dropdown using the Xpath
+        /// </summary>
+        /// <param name="xpath">The XPATH</param>
+        /// <returns></returns>
         public string GetSelectedValueFromDropDownByXpath(string xpath)
         {
-            log.Debug("Get selected value from Dropdown by xpath: {0}", xpath);
+            log.Debug($"Get selected value from Dropdown by xpath: {xpath}");
             try
             {
                 var fluentWait = new DefaultWait<IWebDriver>(WebDriver)
                 {
-                    Timeout = TimeSpan.FromSeconds(10),
-                    PollingInterval = TimeSpan.FromMilliseconds(250)
+                    Timeout = TimeSpan.FromSeconds(settings.LongTimeOutInSec),
+                    PollingInterval = TimeSpan.FromMilliseconds(settings.PollingIntervallInMilSec)
                 };
                 fluentWait.IgnoreExceptionTypes(typeof(NoSuchElementException));
                 fluentWait.IgnoreExceptionTypes(typeof(ElementClickInterceptedException));
@@ -272,13 +292,13 @@ namespace Bright.ScreenPlay.Abilities
         /// <returns>The text from the element</returns>
         public string TekstFromElementByCss(string css)
         {
-            log.Debug("Get tekst from ellement by css: {0}", css);
+            log.Debug($"Get tekst from ellement by css: {css}");
             try
             {
                 var fluentWait = new DefaultWait<IWebDriver>(WebDriver)
                 {
-                    Timeout = TimeSpan.FromSeconds(10),
-                    PollingInterval = TimeSpan.FromMilliseconds(250)
+                    Timeout = TimeSpan.FromSeconds(settings.LongTimeOutInSec),
+                    PollingInterval = TimeSpan.FromMilliseconds(settings.PollingIntervallInMilSec)
                 };
                 fluentWait.IgnoreExceptionTypes(typeof(NoSuchElementException));
                 fluentWait.IgnoreExceptionTypes(typeof(ElementClickInterceptedException));
@@ -297,13 +317,13 @@ namespace Bright.ScreenPlay.Abilities
         /// <param name="xptah">The xpath</param>
         public void WaitUntilElmentVisableByXpath(string xptah)
         {
-            log.Debug("Wait Until Element Vissable by Xpath: {0}", xptah);
+            log.Debug($"Wait Until Element Vissable by Xpath: {xptah}");
             try
             {
                 var fluentWait = new DefaultWait<IWebDriver>(WebDriver)
                 {
-                    Timeout = TimeSpan.FromSeconds(5),
-                    PollingInterval = TimeSpan.FromMilliseconds(250)
+                    Timeout = TimeSpan.FromSeconds(settings.LongTimeOutInSec),
+                    PollingInterval = TimeSpan.FromMilliseconds(settings.PollingIntervallInMilSec)
                 };
                 fluentWait.IgnoreExceptionTypes(typeof(NoSuchElementException));
                 fluentWait.IgnoreExceptionTypes(typeof(ElementClickInterceptedException));
@@ -321,13 +341,13 @@ namespace Bright.ScreenPlay.Abilities
         /// <param name="CSS">The CSS</param>
         public void WaitUntilElmentVisableByCSS(string CSS)
         {
-            log.Debug("Wait Until Element Vissable by CSS: {0}", CSS);
+            log.Debug($"Wait Until Element Vissable by CSS: {CSS}");
             try
             {
                 var fluentWait = new DefaultWait<IWebDriver>(WebDriver)
                 {
-                    Timeout = TimeSpan.FromSeconds(5),
-                    PollingInterval = TimeSpan.FromMilliseconds(250)
+                    Timeout = TimeSpan.FromSeconds(settings.LongTimeOutInSec),
+                    PollingInterval = TimeSpan.FromMilliseconds(settings.PollingIntervallInMilSec)
                 };
                 fluentWait.IgnoreExceptionTypes(typeof(NoSuchElementException));
                 fluentWait.IgnoreExceptionTypes(typeof(ElementClickInterceptedException));
@@ -348,7 +368,7 @@ namespace Bright.ScreenPlay.Abilities
         {
             try
             {
-                object p = WebDriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(2);
+                object p = WebDriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(settings.ShortTimeOutInSec);
                 var element = WebDriver.FindElement(by);
                 return element.Displayed && element.Enabled;
             }
@@ -365,13 +385,13 @@ namespace Bright.ScreenPlay.Abilities
         /// <returns></returns>
         public string GetAttributeFromXpath(string xpath, string property)
         {
-            log.Debug("Get property {0} from ellement by xpath: {1}", property, xpath);
+            log.Debug($"Get property {property} from ellement by xpath: {xpath}");
             try
             {
                 var fluentWait = new DefaultWait<IWebDriver>(WebDriver)
                 {
-                    Timeout = TimeSpan.FromSeconds(10),
-                    PollingInterval = TimeSpan.FromMilliseconds(250)
+                    Timeout = TimeSpan.FromSeconds(settings.LongTimeOutInSec),
+                    PollingInterval = TimeSpan.FromMilliseconds(settings.PollingIntervallInMilSec)
                 };
                 fluentWait.IgnoreExceptionTypes(typeof(NoSuchElementException));
                 fluentWait.IgnoreExceptionTypes(typeof(ElementClickInterceptedException));
