@@ -6,20 +6,19 @@
     <Nullable>disable</Nullable>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <PackageId>Bright.ScreenPlay</PackageId>
+    <Version>2.0.12</Version>
     <Title>A lightwaigt screen play package</Title>
     <PackageTags>ScreenPlay</PackageTags>
-    <Company> Copyright (c) Brightest 2024</Company>
+    <Company>Brightest</Company>
     <Description>A lightwait Screenplay pateren based package</Description>
     <PackageIcon>Icon_Brightest.png</PackageIcon>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
-  </PropertyGroup>
-  
-  <PropertyGroup>
-	  <Version></Version>
-    <VersionPrefix>2.0.11</VersionPrefix>
-    <VersionSuffix></VersionSuffix>
     <PackageProjectUrl>https://github.com/HansColman45/Bright.ScreenPlay</PackageProjectUrl>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <PackageTags>ScreenPlay;Brightest</PackageTags>
+    <Authors>Hans Colman</Authors>
+    <Copyright>Copyright (c) Brightest 2024</Copyright>
   </PropertyGroup>
 
   <ItemGroup>
