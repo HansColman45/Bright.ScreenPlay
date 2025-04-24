@@ -25,6 +25,15 @@ namespace Bright.ScreenPlay.Abilities
             };
             Settings = settings;
         }
+        public OpenAWebPage(IWebDriver webDriver)
+        {
+            settings = new()
+            {
+                TakeScreenShot = false
+            };
+            Settings = settings;
+            WebDriver = webDriver;
+        }
         /// <summary>
         /// This function will click an Element using XPath
         /// </summary>

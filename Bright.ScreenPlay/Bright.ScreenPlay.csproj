@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>disable</Nullable>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
@@ -17,7 +17,7 @@
   
   <PropertyGroup>
 	  <Version></Version>
-    <VersionPrefix>2.0.10</VersionPrefix>
+    <VersionPrefix>2.0.11</VersionPrefix>
     <VersionSuffix></VersionSuffix>
     <PackageProjectUrl>https://github.com/HansColman45/Bright.ScreenPlay</PackageProjectUrl>
   </PropertyGroup>
@@ -38,12 +38,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Bogus" Version="35.5.1" />
+    <PackageReference Include="Bogus" Version="35.6.3" />
     <PackageReference Include="DotNetSeleniumExtras.WaitHelpers" Version="3.11.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-    <PackageReference Include="NLog" Version="5.3.2" />
-    <PackageReference Include="Selenium.Support" Version="4.21.0" />
-    <PackageReference Include="Selenium.WebDriver" Version="4.21.0" />
+    <PackageReference Include="NLog" Version="5.4.0" />
+    <PackageReference Include="Selenium.Support" Version="4.31.0" />
+    <PackageReference Include="Selenium.WebDriver" Version="4.31.0" />
   </ItemGroup>
 
   <ItemGroup>
