@@ -107,8 +107,7 @@ namespace Bright.ScreenPlay.Actors
         /// <param name="performable">The performable item to execute.</param>
         protected void Perform(IPerformable performable)
         {
-            if (performable is null)
-                throw new ArgumentNullException(nameof(performable));
+            ArgumentNullException.ThrowIfNull(performable);
 
             try
             {
@@ -129,6 +128,18 @@ namespace Bright.ScreenPlay.Actors
             Perform(performable);
         }
         /// <summary>
+        /// Attempts to perform a series of actions or tasks.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="attempts"></param>
+        public void AttemptsTo<T>(params T[] attempts) where T : Performable
+        {
+            foreach(T attempt in attempts)
+            {
+                Perform(attempt);
+            }
+        }
+        /// <summary>
         /// Performs an action, task or asks a question which returns a result value.
         /// </summary>
         /// <returns>The result of performing the item</returns>
@@ -136,8 +147,7 @@ namespace Bright.ScreenPlay.Actors
         /// <typeparam name="TResult">The result type</typeparam>
         public virtual TResult Perform<TResult>(IPerformable<TResult> performable)
         {
-            if (performable is null)
-                throw new ArgumentNullException(nameof(performable));
+            ArgumentNullException.ThrowIfNull(performable);
 
             TResult result;
 

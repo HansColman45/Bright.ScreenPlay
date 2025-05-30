@@ -1,8 +1,9 @@
 ﻿using Bright.ScreenPlay.Abilities;
 using Bright.ScreenPlay.Actors;
-using Bright.UnitTest.Tasks;
 using Bright.UnitTest.Question;
+using Bright.UnitTest.Tasks;
 using FluentAssertions;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Bright.UnitTest
 {
@@ -78,6 +79,17 @@ namespace Bright.UnitTest
             var abilities = actor.GetAbilities();
             abilities.Should().HaveCount(2);
             test.WebUrl.Should().Be("Test");
+        }
+        [TestMethod]
+        public void Actor_AttelptsTo() 
+        {
+            var actor = new Actor("John");
+            actor.IsAbleToDoOrUse<CallAnApi>();
+            actor.AttemptsTo(new TestTask());
+            //arange
+            var abilities = actor.GetAbilities();
+            abilities.Should().HaveCount(1);
+            abilities[0].Settings.BaseUrl.Should().Be("Test");
         }
     }
 }
